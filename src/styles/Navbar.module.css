@@ -1,0 +1,22 @@
+.navbar {
+  height: 50px;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navmenu {
+  list-style: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  gap: 2rem;
+}
+
+.navmenu a {
+  color: white;
+}
