@@ -61,5 +61,27 @@ export default function useFirebase() {
 
       return postsList;
     },
+
+    async addPost(post) {
+      let result = {
+        success: false,
+        message: "",
+      };
+      try {
+        await db.collection("posts").add(post);
+
+        result = {
+          success: true,
+          message: "Post Added",
+        };
+      } catch (error) {
+        console.error("Error adding document: ", error);
+        result = {
+          success: false,
+          message: "Error adding post.",
+        };
+      }
+      return result;
+    },
   };
 }
