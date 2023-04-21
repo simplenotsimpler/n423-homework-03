@@ -61,7 +61,18 @@ export default function useFirebase() {
 
       return postsList;
     },
+    async getPostById(postId) {
+      let post = {};
 
+      try {
+        const docSnap = await db.collection("posts").doc(postId).get();
+        post = { ...docSnap.data() };
+      } catch (error) {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+      return post;
+    },
     async addPost(post) {
       let result = {
         success: false,

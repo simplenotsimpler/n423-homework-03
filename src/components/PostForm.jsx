@@ -1,27 +1,63 @@
 import PostFormStyles from "../styles/PostForm.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useFirebase from "@/hooks/useFirebase.js";
 
-const PostForm = ({ formTitle = "Create A Post" }) => {
+const PostForm = ({ postId }) => {
   const firebase = useFirebase();
 
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const initialFieldsState = {
+    title: "",
+    body: "",
+  };
 
-  const post = { title, body, author: firebase.currentUser };
+  // const [title, setTitle] = useState("");
+  // const [body, setBody] = useState("");
+
+  const [fields, setFields] = useState(initialFieldsState);
+
+  useEffect(() => {
+    if (postId) {
+      //TODO: probably need to await this and return somehow or useContext & live filter from the state
+      post = firebase.getPost(postId);
+      setFields({
+        title: post.title,
+        body: post.body,
+      });
+    } else {
+      setFields(initialFieldsState);
+    }
+  }, [postId]);
+
+  const handleChange = (e) =>
+    setFields({ ...fields, [e.target.name]: e.target.value });
+
+  const createPost = async (fields) => {
+    const post = { ...fields, author: firebase.currentUser };
+    const result = await firebase.addPost(post);
+    return result;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await firebase.addPost(post);
+    let result = {};
+    //TODO: validation
+
+    if (postId) {
+      console.log("update postId", postId);
+    } else {
+      result = await createPost(fields);
+    }
+
     //TODO: pretty this up
     alert(result.message);
-    e.target.form.reset();
+
+    e.target.reset();
   };
   return (
     <>
-      <form className={PostFormStyles.postForm}>
-        <h1>{formTitle}</h1>
+      <form className={PostFormStyles.postForm} onSubmit={handleSubmit}>
+        <h1>{postId ? "Edit" : "Create"} A Post</h1>
         <div className={PostFormStyles.postInputGroup}>
           <label htmlFor="title">Title:</label>
           <input
@@ -29,9 +65,8 @@ const PostForm = ({ formTitle = "Create A Post" }) => {
             name="title"
             id="title"
             placeholder="Title..."
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
+            value={fields.title}
+            onChange={handleChange}
           />
         </div>
         <div className={PostFormStyles.postInputGroup}>
@@ -40,16 +75,14 @@ const PostForm = ({ formTitle = "Create A Post" }) => {
             name="body"
             id="body"
             placeholder="Body..."
-            onChange={(e) => {
-              setBody(e.target.value);
-            }}
+            value={fields.body}
+            onChange={handleChange}
           />
         </div>
         <input
           type="submit"
-          value="Submit Post"
+          value={postId ? "Update Post" : "Add Post"}
           aria-label="submit-post"
-          onClick={handleSubmit}
         />
       </form>
     </>
