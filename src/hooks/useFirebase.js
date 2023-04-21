@@ -83,5 +83,28 @@ export default function useFirebase() {
       }
       return result;
     },
+
+    async deletePost(postId) {
+      let result = {
+        success: false,
+        message: "",
+      };
+
+      try {
+        await db.collection("posts").doc(postId).delete();
+        console.log("Document successfully deleted! Id:", postId);
+        result = {
+          success: true,
+          message: "Post deleted.",
+        };
+      } catch (error) {
+        console.error("Error removing document: ", error);
+        result = {
+          success: false,
+          message: "Error deleting post.",
+        };
+      }
+      return result;
+    },
   };
 }
