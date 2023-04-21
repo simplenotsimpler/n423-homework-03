@@ -1,11 +1,11 @@
 import Link from "next/link.js";
 import NavbarStyles from "../styles/Navbar.module.css";
 import { useRouter } from "next/router.js";
-
-//highlight active link
-// https://www.slingacademy.com/article/how-to-highlight-currently-active-link-in-next-js/
+import useFirebase from "@/hooks/useFirebase.js";
 
 const Navbar = () => {
+  const firebase = useFirebase();
+  console.log(firebase.currentUser);
   return (
     <nav className={NavbarStyles.navbar}>
       <ul className={NavbarStyles.navmenu}>
@@ -19,6 +19,8 @@ const Navbar = () => {
           <Link href="/login">Login</Link>
         </li>
       </ul>
+
+      <div>Welcome {firebase.currentUser.displayName}</div>
     </nav>
   );
 };
