@@ -1,26 +1,32 @@
 import Link from "next/link.js";
 import NavbarStyles from "../styles/Navbar.module.css";
-import { useRouter } from "next/router.js";
 import useFirebase from "@/hooks/useFirebase.js";
+
+//TODO: style button - use google button component
 
 const Navbar = () => {
   const firebase = useFirebase();
-  console.log(firebase.currentUser);
+  // console.log(firebase.currentUser);
   return (
     <nav className={NavbarStyles.navbar}>
       <ul className={NavbarStyles.navmenu}>
         <li>
           <Link href="/">Home</Link>
         </li>
-        <li>
-          <Link href="/create">Create TBD</Link>
-        </li>
-        <li>
-          <Link href="/login">Login</Link>
-        </li>
-      </ul>
 
-      <div>Welcome {firebase.currentUser.displayName}</div>
+        {firebase.currentUser.email ? (
+          <>
+            <li>
+              <Link href="/create">Create TBD</Link>
+            </li>
+            <li>
+              <button onClick={firebase.logoutUser}>Logout</button>
+            </li>
+          </>
+        ) : (
+          <button onClick={firebase.loginUser}>Login</button>
+        )}
+      </ul>
     </nav>
   );
 };

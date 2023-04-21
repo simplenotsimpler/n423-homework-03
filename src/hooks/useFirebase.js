@@ -41,7 +41,7 @@ export default function useFirebase() {
       await auth.signInWithPopup(googleProvider);
       return {};
     },
-    async logout() {
+    async logoutUser() {
       await auth.signOut();
       return {};
     },
