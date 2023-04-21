@@ -17,7 +17,7 @@ const Navbar = () => {
         {firebase.currentUser.email ? (
           <>
             <li>
-              <Link href="/create">Create TBD</Link>
+              <Link href="/create">Create Post</Link>
             </li>
             <li>
               <button onClick={firebase.logoutUser}>Logout</button>

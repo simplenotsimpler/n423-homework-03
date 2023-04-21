@@ -1,9 +1,8 @@
-import CreateStyles from "../styles/Create.module.css"
+import PostForm from "@/components/PostForm.jsx";
+import CreateStyles from "../styles/Create.module.css";
 
 const Create = () => {
-  return ( 
-    <p>Create Page</p>
-   );
-}
- 
+  return <PostForm />;
+};
+
 export default Create;

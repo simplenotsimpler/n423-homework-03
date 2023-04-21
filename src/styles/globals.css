@@ -13,6 +13,28 @@ body {
   width: 100%;
 }
 
+/* reset for forms */
+/* https://developer.mozilla.org/en-US/docs/Learn/Forms/Styling_web_forms */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  /* background-color: transparent; */
+}
+
+fieldset {
+  border: 0;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* base styles */
 body {
   font-family: var(--roboto-font);
 }
@@ -23,7 +45,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  padding: 3.125rem;
+  padding: 2.5rem 3.125rem;
 }
 
 /* 
