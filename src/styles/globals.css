@@ -13,6 +13,10 @@ body {
   width: 100%;
 }
 
+body {
+  font-family: var(--roboto-font);
+}
+
 .content {
   display: flex;
   flex-direction: column;
