@@ -12,14 +12,23 @@ const PostsList = () => {
 
   const [postsList, setPostsList] = useState([]);
 
+  // https://plainenglish.io/blog/using-reacts-useeffect-hook-to-fetch-data-and-periodically-refresh-that-data-2a69b6d44081
+  // https://rapidapi.com/guides/api-requests-intervals
+  //https://stackoverflow.com/questions/64144497/fetch-and-setinterval-react-hooks-problem
   async function fetchPosts() {
     const posts = await firebase.getPosts();
     setPostsList(posts);
   }
 
-  //TODO: loading
+  //TODO: show is loading...
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchPosts();
+    }, 5000);
+
     fetchPosts();
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleDeleteClick = async (e) => {
