@@ -33,10 +33,8 @@ const PostsList = ({ posts }) => {
             <div>By: {post.author.displayName}</div>
             {firebase.currentUser.email === post.author.email ? (
               <div className={PostsListStyles.postActions}>
-                //TODO fix styling - why is Edit so high up all of a sudden?
                 <Link href={`/posts/edit/${post.id}`}>
-                  {/* <span className="visually-hidden">Edit</span> &#128393; */}
-                  Edit
+                  <span className="visually-hidden">Edit</span> &#128393;
                 </Link>
 
                 <button id={`delete-${post.id}`} onClick={handleDeleteClick}>

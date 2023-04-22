@@ -53,6 +53,9 @@
 .postActions {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: inherit;
+  gap: 1rem;
 }
 
 .postActions button {
@@ -66,4 +69,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+.postActions a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.75rem;
 }
