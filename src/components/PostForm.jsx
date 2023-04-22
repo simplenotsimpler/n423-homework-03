@@ -42,7 +42,11 @@ const PostForm = ({ postId }) => {
     return result;
   };
 
-  //TODO: should I just be using formData?
+  const updatePost = async () => {
+    const result = await firebase.updatePost(postId, post);
+    return result;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,8 +54,9 @@ const PostForm = ({ postId }) => {
     //TODO: validation
 
     if (postId) {
-      console.log("update postId", postId);
-      console.log("updated post", post);
+      result = await updatePost();
+
+      //TODO: figure out flow? stay on page or go back to home?
     } else {
       result = await createPost();
 

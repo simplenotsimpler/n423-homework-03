@@ -94,7 +94,31 @@ export default function useFirebase() {
       }
       return result;
     },
+    async updatePost(postId, post) {
+      let result = {
+        succes: false,
+        message: "",
+      };
 
+      try {
+        await db
+          .collection("posts")
+          .doc(postId)
+          .update({ ...post });
+
+        result = {
+          success: true,
+          message: "Post updated.",
+        };
+      } catch (error) {
+        console.error("Error removing document: ", error);
+        result = {
+          success: false,
+          message: "Error updating post.",
+        };
+      }
+      return result;
+    },
     async deletePost(postId) {
       let result = {
         success: false,
