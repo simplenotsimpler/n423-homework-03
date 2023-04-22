@@ -1,6 +1,7 @@
 import PostsListStyles from "../styles/PostsList.module.css";
 import useFirebase from "@/hooks/useFirebase.js";
 import { getTextAfterCharacter } from "@/utils/helpers.js";
+import Link from "next/link.js";
 
 const PostsList = ({ posts }) => {
   const firebase = useFirebase();
@@ -32,9 +33,12 @@ const PostsList = ({ posts }) => {
             <div>By: {post.author.displayName}</div>
             {firebase.currentUser.email === post.author.email ? (
               <div className={PostsListStyles.postActions}>
-                <button id={`edit-${post.id}`}>
-                  <span className="visually-hidden">Edit</span> &#128393;
-                </button>
+                //TODO fix styling - why is Edit so high up all of a sudden?
+                <Link href={`/posts/edit/${post.id}`}>
+                  {/* <span className="visually-hidden">Edit</span> &#128393; */}
+                  Edit
+                </Link>
+
                 <button id={`delete-${post.id}`} onClick={handleDeleteClick}>
                   <span className="visually-hidden">Delete</span> &#128465;
                 </button>

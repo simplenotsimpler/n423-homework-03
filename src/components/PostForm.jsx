@@ -1,3 +1,7 @@
+/* 
+  Resources: https://ultimatecourses.com/blog/using-async-await-inside-react-use-effect-hook
+*/
+
 import PostFormStyles from "../styles/PostForm.module.css";
 import { useState, useEffect } from "react";
 import useFirebase from "@/hooks/useFirebase.js";
@@ -5,54 +9,61 @@ import useFirebase from "@/hooks/useFirebase.js";
 const PostForm = ({ postId }) => {
   const firebase = useFirebase();
 
-  const initialFieldsState = {
+  const initialPostState = {
     title: "",
     body: "",
   };
 
-  // const [title, setTitle] = useState("");
-  // const [body, setBody] = useState("");
-
-  const [fields, setFields] = useState(initialFieldsState);
+  const [post, setPost] = useState(initialPostState);
 
   useEffect(() => {
     if (postId) {
-      //TODO: probably need to await this and return somehow or useContext & live filter from the state
-      post = firebase.getPost(postId);
-      setFields({
-        title: post.title,
-        body: post.body,
-      });
+      //TODO: try / catch
+      const getPost = async () => {
+        const fetchedPost = await firebase.getPostById(postId);
+        setPost(fetchedPost);
+      };
+
+      getPost();
+
+      //clean up
+      return () => {};
     } else {
-      setFields(initialFieldsState);
+      setPost(initialPostState);
     }
   }, [postId]);
 
   const handleChange = (e) =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
+    setPost({ ...post, [e.target.name]: e.target.value });
 
-  const createPost = async (fields) => {
-    const post = { ...fields, author: firebase.currentUser };
-    const result = await firebase.addPost(post);
+  const createPost = async () => {
+    const newPost = { ...post, author: firebase.currentUser };
+    const result = await firebase.addPost(newPost);
     return result;
   };
 
+  //TODO: should I just be using formData?
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let result = {};
+    let result = { success: false, message: "" };
     //TODO: validation
 
     if (postId) {
       console.log("update postId", postId);
+      console.log("updated post", post);
     } else {
-      result = await createPost(fields);
+      result = await createPost();
+
+      //does not work with this set up b/c state has updated post
+      // e.target.reset();
+      //reset form by resetting the post state
+      //https://stackoverflow.com/questions/63475521/how-to-clear-input-field-after-a-successful-submittion-in-react-using-useeffect
+      setPost(initialPostState);
     }
 
     //TODO: pretty this up
     alert(result.message);
-
-    e.target.reset();
   };
   return (
     <>
@@ -65,7 +76,7 @@ const PostForm = ({ postId }) => {
             name="title"
             id="title"
             placeholder="Title..."
-            value={fields.title}
+            value={post.title}
             onChange={handleChange}
           />
         </div>
@@ -75,7 +86,7 @@ const PostForm = ({ postId }) => {
             name="body"
             id="body"
             placeholder="Body..."
-            value={fields.body}
+            value={post.body}
             onChange={handleChange}
           />
         </div>
