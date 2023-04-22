@@ -2,9 +2,25 @@ import PostsListStyles from "../styles/PostsList.module.css";
 import useFirebase from "@/hooks/useFirebase.js";
 import { getTextAfterCharacter } from "@/utils/helpers.js";
 import Link from "next/link.js";
+import { useState, useEffect } from "react";
 
-const PostsList = ({ posts }) => {
+//load via useEffect
+// https://www.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
+
+const PostsList = () => {
   const firebase = useFirebase();
+
+  const [postsList, setPostsList] = useState([]);
+
+  async function fetchPosts() {
+    const posts = await firebase.getPosts();
+    setPostsList(posts);
+  }
+
+  //TODO: loading
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const handleDeleteClick = async (e) => {
     const postId = getTextAfterCharacter(e.target.id, "-");
@@ -21,7 +37,7 @@ const PostsList = ({ posts }) => {
       console.log("Delete cancelled");
     }
   };
-  const postsListComponents = posts.map((post) => {
+  const postsListComponents = postsList.map((post) => {
     return (
       <li key={post.id}>
         <article className={PostsListStyles.post}>
