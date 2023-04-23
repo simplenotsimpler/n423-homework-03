@@ -5,13 +5,12 @@ import useFirebase from "@/hooks/useFirebase.js";
 
 const Login = () => {
   const firebase = useFirebase();
+  const { loginUser } = firebase;
+
   return (
     <>
       <p className={LoginStyles.loginContent}>To continue, sign in with</p>
-      <button
-        className={LoginStyles.loginWithGoogleBtn}
-        onClick={firebase.loginUser}
-      >
+      <button className={LoginStyles.loginWithGoogleBtn} onClick={loginUser}>
         Google
       </button>
     </>

@@ -6,7 +6,8 @@ import useFirebase from "@/hooks/useFirebase.js";
 
 const Navbar = () => {
   const firebase = useFirebase();
-  // console.log(firebase.currentUser);
+  const { currentUser, loginUser, logoutUser } = firebase;
+
   return (
     <nav className={NavbarStyles.navbar}>
       <ul className={NavbarStyles.navmenu}>
@@ -14,17 +15,17 @@ const Navbar = () => {
           <Link href="/">Home</Link>
         </li>
 
-        {firebase.currentUser.email ? (
+        {currentUser.email ? (
           <>
             <li>
               <Link href="/create">Create Post</Link>
             </li>
             <li>
-              <button onClick={firebase.logoutUser}>Logout</button>
+              <button onClick={logoutUser}>Logout</button>
             </li>
           </>
         ) : (
-          <button onClick={firebase.loginUser}>Login</button>
+          <button onClick={loginUser}>Login</button>
         )}
       </ul>
     </nav>
