@@ -36,110 +36,121 @@ export default function useFirebase() {
     }
   });
 
-  // console.log(currentUser);
+  const loginUser = async () => {
+    await auth.signInWithPopup(googleProvider);
+    return {};
+  };
+
+  const logoutUser = async () => {
+    await auth.signOut();
+    return {};
+  };
+
+  const getPosts = async () => {
+    const postsSnapshot = await db.collection("posts").get();
+    const postsList = [];
+    for (let post of postsSnapshot.docs) {
+      const postData = post.data();
+      postsList.push({
+        ...postData,
+        id: post.id,
+      });
+    }
+
+    return postsList;
+  };
+
+  const getPostById = async (postId) => {
+    let post = {};
+
+    try {
+      const docSnap = await db.collection("posts").doc(postId).get();
+      post = { ...docSnap.data() };
+    } catch (error) {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    return post;
+  };
+
+  const addPost = async (post) => {
+    let result = {
+      success: false,
+      message: "",
+    };
+    try {
+      await db.collection("posts").add(post);
+
+      result = {
+        success: true,
+        message: "Post Added",
+      };
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      result = {
+        success: false,
+        message: "Error adding post.",
+      };
+    }
+    return result;
+  };
+
+  const updatePost = async (postId, post) => {
+    let result = {
+      succes: false,
+      message: "",
+    };
+
+    try {
+      await db
+        .collection("posts")
+        .doc(postId)
+        .update({ ...post });
+
+      result = {
+        success: true,
+        message: "Post updated.",
+      };
+    } catch (error) {
+      console.error("Error removing document: ", error);
+      result = {
+        success: false,
+        message: "Error updating post.",
+      };
+    }
+    return result;
+  };
+
+  const deletePost = async (postId) => {
+    let result = {
+      success: false,
+      message: "",
+    };
+
+    try {
+      await db.collection("posts").doc(postId).delete();
+      console.log("Document successfully deleted! Id:", postId);
+      result = {
+        success: true,
+        message: "Post deleted.",
+      };
+    } catch (error) {
+      console.error("Error removing document: ", error);
+      result = {
+        success: false,
+        message: "Error deleting post.",
+      };
+    }
+    return result;
+  };
   return {
     currentUser,
-    async loginUser() {
-      await auth.signInWithPopup(googleProvider);
-      return {};
-    },
-    async logoutUser() {
-      await auth.signOut();
-      return {};
-    },
-    //NOTE: is this live?
-    async getPosts() {
-      const postsSnapshot = await db.collection("posts").get();
-      const postsList = [];
-      for (let post of postsSnapshot.docs) {
-        const postData = post.data();
-        postsList.push({
-          ...postData,
-          id: post.id,
-        });
-      }
-
-      return postsList;
-    },
-    async getPostById(postId) {
-      let post = {};
-
-      try {
-        const docSnap = await db.collection("posts").doc(postId).get();
-        post = { ...docSnap.data() };
-      } catch (error) {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-      return post;
-    },
-    async addPost(post) {
-      let result = {
-        success: false,
-        message: "",
-      };
-      try {
-        await db.collection("posts").add(post);
-
-        result = {
-          success: true,
-          message: "Post Added",
-        };
-      } catch (error) {
-        console.error("Error adding document: ", error);
-        result = {
-          success: false,
-          message: "Error adding post.",
-        };
-      }
-      return result;
-    },
-    async updatePost(postId, post) {
-      let result = {
-        succes: false,
-        message: "",
-      };
-
-      try {
-        await db
-          .collection("posts")
-          .doc(postId)
-          .update({ ...post });
-
-        result = {
-          success: true,
-          message: "Post updated.",
-        };
-      } catch (error) {
-        console.error("Error removing document: ", error);
-        result = {
-          success: false,
-          message: "Error updating post.",
-        };
-      }
-      return result;
-    },
-    async deletePost(postId) {
-      let result = {
-        success: false,
-        message: "",
-      };
-
-      try {
-        await db.collection("posts").doc(postId).delete();
-        console.log("Document successfully deleted! Id:", postId);
-        result = {
-          success: true,
-          message: "Post deleted.",
-        };
-      } catch (error) {
-        console.error("Error removing document: ", error);
-        result = {
-          success: false,
-          message: "Error deleting post.",
-        };
-      }
-      return result;
-    },
+    loginUser,
+    logoutUser,
+    getPosts,
+    getPostById,
+    addPost,
+    updatePost,
+    deletePost,
   };
 }
