@@ -1,7 +1,9 @@
 import LoginStyles from "../styles/Login.module.css";
 import useFirebase from "@/hooks/useFirebase.js";
 
+
 //TODO: convert the button to its own component or use 3rd party?
+//TODO: set up handleLogin
 
 const Login = () => {
   const firebase = useFirebase();

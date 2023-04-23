@@ -51,7 +51,7 @@ const PostForm = ({ postId }) => {
     e.preventDefault();
 
     let result = { success: false, message: "" };
-    //TODO: validation
+
 
     if (postId) {
       result = await updatePost();
@@ -83,6 +83,7 @@ const PostForm = ({ postId }) => {
             placeholder="Title..."
             value={post.title}
             onChange={handleChange}
+            required
           />
         </div>
         <div className={PostFormStyles.postInputGroup}>
