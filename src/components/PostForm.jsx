@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import useFirebase from "@/hooks/useFirebase.js";
 
 const PostForm = ({ postId }) => {
-  const { getPostById } = useFirebase();
+  const { getPostById, addPost, updatePost } = useFirebase();
 
   const initialPostState = {
     title: "",
@@ -42,12 +42,12 @@ const PostForm = ({ postId }) => {
 
   const createPost = async () => {
     const newPost = { ...post, author: firebase.currentUser };
-    const result = await firebase.addPost(newPost);
+    const result = await addPost(newPost);
     return result;
   };
 
-  const updatePost = async () => {
-    const result = await firebase.updatePost(postId, post);
+  const editPost = async () => {
+    const result = await updatePost(postId, post);
     return result;
   };
 
@@ -57,7 +57,7 @@ const PostForm = ({ postId }) => {
     let result = { success: false, message: "" };
 
     if (postId) {
-      result = await updatePost();
+      result = await editPost();
 
       //TODO: figure out flow? stay on page or go back to home?
     } else {
