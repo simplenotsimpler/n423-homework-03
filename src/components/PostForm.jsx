@@ -5,6 +5,7 @@
 import PostFormStyles from "../styles/PostForm.module.css";
 import { useState, useEffect } from "react";
 import useFirebase from "@/hooks/useFirebase.js";
+import { useRouter } from "next/router.js";
 
 const PostForm = ({ postId }) => {
   const { getPostById, addPost, updatePost } = useFirebase();
@@ -15,6 +16,7 @@ const PostForm = ({ postId }) => {
   };
 
   const [post, setPost] = useState(initialPostState);
+  const router = useRouter();
 
   const getPost = async () => {
     const { result, post } = await getPostById(postId);
@@ -58,8 +60,12 @@ const PostForm = ({ postId }) => {
 
     if (postId) {
       result = await editPost();
+<<<<<<< HEAD
 
       //TODO: figure out flow? stay on page or go back to home?
+=======
+      router.push("/");
+>>>>>>> update-post-flow
     } else {
       result = await createPost();
 
