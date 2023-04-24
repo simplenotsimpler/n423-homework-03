@@ -8,6 +8,11 @@ const Navbar = () => {
   const firebase = useFirebase();
   const { currentUser, loginUser, logoutUser } = firebase;
 
+  const handleLogout = async () => {
+    const result = await logoutUser();
+    alert(result.message);
+  };
+
   return (
     <nav className={NavbarStyles.navbar}>
       <ul className={NavbarStyles.navmenu}>
@@ -21,7 +26,7 @@ const Navbar = () => {
               <Link href="/create">Create Post</Link>
             </li>
             <li>
-              <button onClick={logoutUser}>Logout</button>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           </>
         ) : (

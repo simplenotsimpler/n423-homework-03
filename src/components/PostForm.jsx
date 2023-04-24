@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import useFirebase from "@/hooks/useFirebase.js";
 
 const PostForm = ({ postId }) => {
-  const firebase = useFirebase();
+  const { getPostById } = useFirebase();
 
   const initialPostState = {
     title: "",
@@ -16,14 +16,18 @@ const PostForm = ({ postId }) => {
 
   const [post, setPost] = useState(initialPostState);
 
+  const getPost = async () => {
+    const { result, post } = await getPostById(postId);
+
+    if (result.success) {
+      setPost(post);
+    } else {
+      alert(result.message);
+    }
+  };
+
   useEffect(() => {
     if (postId) {
-      //TODO: try / catch
-      const getPost = async () => {
-        const fetchedPost = await firebase.getPostById(postId);
-        setPost(fetchedPost);
-      };
-
       getPost();
 
       //clean up
@@ -51,7 +55,6 @@ const PostForm = ({ postId }) => {
     e.preventDefault();
 
     let result = { success: false, message: "" };
-
 
     if (postId) {
       result = await updatePost();
