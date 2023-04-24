@@ -9,9 +9,9 @@
 
 html,
 body {
+  /* height: 100%; */
   height: 100%;
   width: 100%;
-  background-color: rgba(195, 42, 255, 0.1);
 }
 
 /* reset for forms */
@@ -22,7 +22,6 @@ select,
 textarea {
   font-family: inherit;
   font-size: 100%;
-  /* background-color: transparent; */
 }
 
 fieldset {
@@ -38,6 +37,7 @@ select:focus {
 /* base styles */
 body {
   font-family: var(--roboto-font);
+  background-color: rgba(195, 42, 255, 0.1);
 }
 
 .content {
@@ -47,6 +47,8 @@ body {
   align-items: center;
 
   padding: 2.5rem 3.125rem;
+  /* height less the navbar height. ideally should be a variable */
+  height: calc(100vh-70px);
 }
 
 /* 

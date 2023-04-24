@@ -8,8 +8,7 @@ import { useState, useEffect } from "react";
 // https://www.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
 
 const PostsList = () => {
-  
-  const {currentUser, getPosts, deletePost} = useFirebase();
+  const { currentUser, getPosts, deletePost } = useFirebase();
 
   const [postsList, setPostsList] = useState([]);
 
@@ -27,7 +26,7 @@ const PostsList = () => {
     }
   }
 
-  //TODO: show is loading...
+  //FUTURE: show is loading...
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchPosts();
