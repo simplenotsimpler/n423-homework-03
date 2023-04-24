@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 // https://www.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
 
 const PostsList = () => {
-  const firebase = useFirebase();
+  
+  const {currentUser, getPosts, deletePost} = useFirebase();
 
   const [postsList, setPostsList] = useState([]);
 
@@ -17,7 +18,7 @@ const PostsList = () => {
   //https://stackoverflow.com/questions/64144497/fetch-and-setinterval-react-hooks-problem
 
   async function fetchPosts() {
-    const { result, postsList } = await firebase.getPosts();
+    const { result, postsList } = await getPosts();
 
     if (result.success) {
       setPostsList(postsList);
@@ -45,7 +46,7 @@ const PostsList = () => {
 
     if (confirmResult) {
       console.log("Yes, delete postId", postId);
-      const result = await firebase.deletePost(postId);
+      const result = await deletePost(postId);
       //TODO: pretty this up
       alert(result.message);
     } else {
@@ -62,7 +63,7 @@ const PostsList = () => {
           <div className={PostsListStyles.postBody}>{post.body}</div>
           <footer className={PostsListStyles.postFooter}>
             <div>By: {post.author.displayName}</div>
-            {firebase.currentUser.email === post.author.email ? (
+            {currentUser.email === post.author.email ? (
               <div className={PostsListStyles.postActions}>
                 <Link href={`/posts/edit/${post.id}`}>
                   <span className="visually-hidden">Edit</span> &#128393;
