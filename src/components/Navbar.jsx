@@ -2,11 +2,9 @@ import Link from "next/link.js";
 import NavbarStyles from "../styles/Navbar.module.css";
 import useFirebase from "@/hooks/useFirebase.js";
 
-//TODO: style button - use google button component? or just go back to directing to Login page??
-
 const Navbar = () => {
   const firebase = useFirebase();
-  const { currentUser, loginUser, logoutUser } = firebase;
+  const { currentUser, logoutUser } = firebase;
 
   const handleLogout = async () => {
     const result = await logoutUser();
@@ -30,7 +28,9 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          <button onClick={loginUser}>Login</button>
+          <li>
+            <Link href="/login">Login</Link>
+          </li>
         )}
       </ul>
     </nav>
