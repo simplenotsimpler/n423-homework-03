@@ -5,6 +5,7 @@ const Login = () => {
   const firebase = useFirebase();
   const { loginUser } = firebase;
 
+  //TODO: redirect to home
   const handleLogin = async () => {
     const result = await loginUser();
     alert(result.message);

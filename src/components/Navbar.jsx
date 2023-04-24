@@ -11,8 +11,10 @@ const Navbar = () => {
     alert(result.message);
   };
 
+  //TODO: activelink
   return (
     <nav className={NavbarStyles.navbar}>
+      <h1>Private Posts</h1>
       <ul className={NavbarStyles.navmenu}>
         <li>
           <Link href="/">Home</Link>
@@ -24,12 +26,16 @@ const Navbar = () => {
               <Link href="/create">Create Post</Link>
             </li>
             <li>
-              <button onClick={handleLogout}>Logout</button>
+              <button className={NavbarStyles.btn} onClick={handleLogout}>
+                Logout
+              </button>
             </li>
           </>
         ) : (
           <li>
-            <Link href="/login">Login</Link>
+            <Link href="/login" className={NavbarStyles.btn}>
+              Login
+            </Link>
           </li>
         )}
       </ul>

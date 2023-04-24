@@ -3,8 +3,11 @@
   background-color: black;
   color: white;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 0.5rem 3rem;
+  font-size: 1.25rem;
+  text-transform: uppercase;
 }
 
 .navmenu {
@@ -13,10 +16,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.25rem;
   gap: 2rem;
 }
 
 .navmenu a {
   color: white;
+  text-transform: uppercase;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.5rem;
+  text-decoration-color: #c32aff;
+}
+
+.navmenu .btn {
+  border: none;
+  background-color: #c32aff;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }
