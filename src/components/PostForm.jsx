@@ -8,7 +8,7 @@ import useFirebase from "@/hooks/useFirebase.js";
 import { useRouter } from "next/router.js";
 
 const PostForm = ({ postId }) => {
-  const { getPostById, addPost, updatePost } = useFirebase();
+  const { currentUser, getPostById, addPost, updatePost } = useFirebase();
 
   const initialPostState = {
     title: "",
@@ -43,7 +43,7 @@ const PostForm = ({ postId }) => {
     setPost({ ...post, [e.target.name]: e.target.value });
 
   const createPost = async () => {
-    const newPost = { ...post, author: firebase.currentUser };
+    const newPost = { ...post, author: currentUser };
     const result = await addPost(newPost);
     return result;
   };
