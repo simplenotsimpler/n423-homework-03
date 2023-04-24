@@ -60,12 +60,7 @@ const PostForm = ({ postId }) => {
 
     if (postId) {
       result = await editPost();
-<<<<<<< HEAD
-
-      //TODO: figure out flow? stay on page or go back to home?
-=======
       router.push("/");
->>>>>>> update-post-flow
     } else {
       result = await createPost();
 
